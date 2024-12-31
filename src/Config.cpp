@@ -25,6 +25,7 @@ namespace hscpp
     {
         // Has to be in .cpp file to avoid circular dependency with Platform.h.
         executable = platform::GetDefaultCompilerExecutable();
+        compile_commands_json_path = platform::GetDefaultCompileCommands();
     }
 
 }

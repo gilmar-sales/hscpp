@@ -16,6 +16,8 @@ option(HSCPP_BUILD_EXTENSION_MEM "Enable building hscpp::mem extension." ON)
 option(HSCPP_USE_GHC_FILESYSTEM "Use ghc filesystem as a substitute of std::filesystem." OFF)
 option(HSCPP_DISABLE "Disable hscpp." OFF)
 
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
 # List of source files compiled in every configuration.
 list(APPEND HSCPP_SRC_FILES
     src/compiler/Compiler.cpp
@@ -94,7 +96,10 @@ list(APPEND HSCPP_COMPILE_DEFINITIONS
     HSCPP_ROOT_PATH="${CMAKE_CURRENT_SOURCE_DIR}"
     HSCPP_COMPILER_PATH="${CMAKE_CXX_COMPILER}"
     HSCPP_BUILD_PATH="${CMAKE_BINARY_DIR}"
+    HSCPP_COMPILE_COMMANDS_PATH="${CMAKE_BINARY_DIR}/compile_commands.json"
 )
+
+list(APPEND HSCPP_COMPILE_DEFINITIONS HSCPP_COMPILER_COMPILE_COMMANDS)
 
 # List of libraries to link in every configuration.
 list(APPEND HSCPP_LINK_LIBRARIES)
@@ -235,7 +240,9 @@ else()
     list(APPEND HSCPP_SRC_FILES src/Hotswapper_enabled.cpp)
 endif()
 
-add_library(hscpp ${HSCPP_SRC_FILES})
+add_library(hscpp ${HSCPP_SRC_FILES}
+        src/compiler/CompilerCmdLine_compile_commands.cpp
+        include/hscpp/compiler/CompilerCmdLine_compile_commands.h)
 
 target_include_directories(hscpp PUBLIC include)
 target_compile_options(hscpp PUBLIC ${HSCPP_COMPILE_OPTIONS})

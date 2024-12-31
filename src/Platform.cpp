@@ -24,6 +24,7 @@
 
 // Compiler and GCC interface is cross-platform. MSVC interface is Win32-only.
 #include "hscpp/compiler/Compiler.h"
+#include "hscpp/compiler/CompilerCmdLine_compile_commands.h"
 #include "hscpp/compiler/CompilerInitializeTask_gcc.h"
 #include "hscpp/compiler/CompilerCmdLine_gcc.h"
 
@@ -53,7 +54,10 @@ namespace hscpp { namespace platform
         std::unique_ptr<ICmdShellTask> pInitializeTask;
         std::unique_ptr<ICompilerCmdLine> pCompilerCmdLine;
 
-#if defined(HSCPP_COMPILER_MSVC)
+#if defined(HSCPP_COMPILER_COMPILE_COMMANDS)
+pInitializeTask = std::unique_ptr<ICmdShellTask>(new CompilerInitializeTask_gcc(pConfig));
+pCompilerCmdLine = std::unique_ptr<ICompilerCmdLine>(new CompilerCmdLine_compile_commands(pConfig));
+#elif defined(HSCPP_COMPILER_MSVC)
         pInitializeTask = std::unique_ptr<ICmdShellTask>(new CompilerInitializeTask_msvc());
         pCompilerCmdLine = std::unique_ptr<ICompilerCmdLine>(new CompilerCmdLine_msvc(pConfig));
 #elif defined(HSCPP_COMPILER_CLANG_CL)
@@ -193,6 +197,11 @@ namespace hscpp { namespace platform
     fs::path GetDefaultCompilerExecutable()
     {
         return fs::path(HSCPP_COMPILER_PATH);
+    }
+
+    fs::path GetDefaultCompileCommands()
+    {
+        return fs::path(HSCPP_COMPILE_COMMANDS_PATH);
     }
 
     //============================================================================

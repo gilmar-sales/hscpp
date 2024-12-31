@@ -3,6 +3,9 @@
 #include <poll.h>
 
 #include "hscpp/file-watcher/FileWatcher_unix.h"
+
+#include <algorithm>
+
 #include "hscpp/Log.h"
 
 namespace hscpp

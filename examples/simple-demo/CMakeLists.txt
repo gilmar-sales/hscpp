@@ -11,3 +11,4 @@ add_executable(simple-demo
 target_include_directories(simple-demo PRIVATE include)
 
 target_link_libraries(simple-demo hscpp)
+

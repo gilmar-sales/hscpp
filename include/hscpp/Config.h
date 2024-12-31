@@ -17,6 +17,7 @@ namespace hscpp
         std::chrono::milliseconds initializeTimeout = std::chrono::milliseconds(60000);
 
         fs::path executable;
+        fs::path compile_commands_json_path;
     };
 
     struct FileWatcherConfig
